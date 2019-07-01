@@ -1,5 +1,3 @@
 # AMLI-Final-Project
 
-Analyzing Yelp Data 
-Test
-..
+Analyzing Yelp Data
