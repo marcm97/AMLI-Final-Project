@@ -14,7 +14,7 @@ from flask_googlemaps import GoogleMaps,Map
 # create the application object
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['GOOGLEMAPS_KEY'] = "AIzaSyBih6eXHMnD7LywqdtUAqKLAgDaneri9fo"
+app.config['GOOGLEMAPS_KEY'] = "api_key"
 GoogleMaps(app)
 
 mesa_lda = pickle.load(open("mesa_lda.pkl","rb"))
