@@ -9,6 +9,11 @@
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <body>
+<style>
+    dif.container{
+        text-align:left;
+    </style>    
+
 <div class="container">
 	<h1>Yelp</h1>
 
@@ -22,28 +27,26 @@
         <td width="150px">Restaurant:</td>
     </tr>
     <tr>
-        
         <td><input type="text" class="form-control mt-2" id="departure" placeholder="Enter a restaurant" name="departure"></td>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">{{location}}</a>
-            <a class="dropdown-item" href="#">{{location}}</a>
-            <a class="dropdown-item" href="#">{{location}}</a>
-          </div>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">{{location}}</a>
+        <a class="dropdown-item" href="#">{{location}}</a>
+        <a class="dropdown-item" href="#">{{location}}</a>
+      </div>
         </div>
         
         <td><input type="text" class="form-control mt-2" id="destination" placeholder="Enter where you want to go" name="destination"></td>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">{{location}}</a>
-            <a class="dropdown-item" href="#">{{location}}</a>
-            <a class="dropdown-item" href="#">{{location}}</a>
-          </div>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">{{location}}</a>
+        <a class="dropdown-item" href="#">{{location}}</a>
+        <a class="dropdown-item" href="#">{{location}}</a>
+      </div>
         </div>
         
         <td><input type="text" class="form-control mt-2" id="restaurant" placeholder="Looking for what?" name="restaurant"></td>
@@ -84,22 +87,9 @@
                 Found {{selected|length}} similar restaurants!
                 {% endif %}
             </div>
-      
-      
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="Restaurants">
-    <a class="dropdown-item" href="#">Mesa, AZ</a>
-    <a class="dropdown-item" href="#">Pittsburgh, PA</a>
-    <a class="dropdown-item" href="#">Another location here</a>
-  </div>
-</div>
-    <td></td>
-    <tr>
 </table>
 </div>
 </FORM>
     
 </div>
 </body>
-</html>
