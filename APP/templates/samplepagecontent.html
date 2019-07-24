@@ -69,8 +69,7 @@
                 {% for index in range(0, selected|length) %}
                 <div class="well">
                         <h1 class="pull-right"><img src="../static/images/l{{index}}.png">&nbsp&nbsp</h1>
-                        <h2><b>{{selected[index]["first_name"] + " " + selected[index]["last_name"] + ", " + selected[index]["title"]}}</b></h2>
-                        {{selected[index]["specialty"]}}
+                        <h2><b>{{selected[index]["restaurant"] + " " + selected[index]["current location"] + ", " + selected[index]["destination"]}}</b></h2>
                         <hr>
                         
                         {% if  selected[index]["percent1"] != "NONE" %}
