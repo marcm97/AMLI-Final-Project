@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF=8">
+	<title>Yelp</title>
+    </head>
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<!-- Initialize google map module -->
+{{"decoupled-map"|googlemap_js(37.774507, -122.419255, varname="decoupledmap", markers=[(37.774507, -122.419255)])}}
+{{movingmap.js}}
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1 class="neue"><font color="#FF4C33">Restaurant Recommender from Yelp</font></h1>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <br><br>
+
+<!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-4">                
+                <form method="POST" action="">
+                <div>
+                <h3 class="twofive">Restaurant name</h3>
+                <input type="text" name="ticker" value="{{restaurant_name}}" placeholder="try:Alessia's Ristorante Italiano " size="30"/>
+                <h3 class="twofive">Location</h3>
+                <input type="text" name="ticker" value="{{address}}" placeholder="try: Mesa, AZ" size="30"/><br><br>
+    	            </div>
+                <br>
+                <input type="submit" value="Search" size="30"/>
+                </form>
+                {% if selected|length > 0 and selected|length == 1 %}
+                Found {{selected|length}} similar restaurant!
+                {% elif selected|length > 1 %}
+                Found {{selected|length}} similar restaurants!
+                {% endif %}
+            </div>
+
+
+
+            <div class="col-md-8">
+                <br>
+                <div class="thumbnail">                
+                    <center>{{movingmap.html}}</center>
+                </div>
+
+                {% for index in range(0, selected|length) %}
+                <div class="well">
+                        <h1 class="pull-right"><img src="../static/images/l{{index}}.png">&nbsp&nbsp</h1>
+                        <h2><b>{{selected[index]["restaurant"] + " " + selected[index]["current location"] + ", " + selected[index]["destination"]}}</b></h2>
+                        <hr>
+                        
+                        {% if  selected[index]["percent1"] != "NONE" %}
+                        <h3><p>Restaurant ratings by topic</p></h3>
+                        <h4><p>
+                        <b><font color="#366ec9">{{selected[index]["percent1"].split("SSEEPP")[1]}}%</font></b> of the people talk about <b>{{selected[index]["percent1"].split("SSEEPP")[0]}}</b> positively
+                        <div class="progress" style="width:70%;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{selected[index]["percent1"].split("SSEEPP")[1]}}" aria-valuemin="0" aria-valuemax="100" style="width:{{selected[index]["percent1"].split("SSEEPP")[1]}}%">
+                        {{selected[index]["percent1"].split("SSEEPP")[1]}}%
+                        </div>
+                        </div>      
+                        </p></h4>
+                        {% else %}
+                        <h3><p>This restaurant does not have enough reviews for generating a complete snapshot.</p></h3>
+                        {% endif %}
+                        
+                        {% if  selected[index]["percent2"] != "NONE" %}
+                        <h4><p>
+                        <b><font color="#366ec9">{{selected[index]["percent2"].split("SSEEPP")[1]}}%</font></b> of the people talk about <b>{{selected[index]["percent2"].split("SSEEPP")[0]}}</b> positively
+                        <div class="progress" style="width:70%;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{selected[index]["percent2"].split("SSEEPP")[1]}}" aria-valuemin="0" aria-valuemax="100" style="width:{{selected[index]["percent2"].split("SSEEPP")[1]}}%">
+                        {{selected[index]["percent2"].split("SSEEPP")[1]}}%
+                        </div>
+                        </div>      
+                        </p></h4>
+                        {% endif %}
+                        
+                        {% if  selected[index]["percent3"] != "NONE" %}
+                        <h4><p>
+                        <b><font color="#366ec9">{{selected[index]["percent3"].split("SSEEPP")[1]}}%</font></b> of the people talk about <b>{{selected[index]["percent3"].split("SSEEPP")[0]}}</b> positively
+                        <div class="progress" style="width:70%;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{selected[index]["percent3"].split("SSEEPP")[1]}}" aria-valuemin="0" aria-valuemax="100" style="width:{{selected[index]["percent3"].split("SSEEPP")[1]}}%">
+                        {{selected[index]["percent3"].split("SSEEPP")[1]}}%
+                        </div>
+                        </div>      
+                        </p></h4>
+                        {% endif %}
+                        
+                        {% if  selected[index]["percent4"] != "NONE" %}
+                        <h4><p>
+                        <b><font color="#366ec9">{{selected[index]["percent4"].split("SSEEPP")[1]}}%</font></b> of the people talk about <b>{{selected[index]["percent4"].split("SSEEPP")[0]}}</b> positively
+                        <div class="progress" style="width:70%;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{selected[index]["percent4"].split("SSEEPP")[1]}}" aria-valuemin="0" aria-valuemax="100" style="width:{{selected[index]["percent4"].split("SSEEPP")[1]}}%">
+                        {{selected[index]["percent4"].split("SSEEPP")[1]}}%
+                        </div>
+                        </div>      
+                        </p></h4>
+                        {% endif %}
+                        
+                        {% if  selected[index]["percent5"] != "NONE" %}
+                        <h4><p>
+                        <b><font color="#366ec9">{{selected[index]["percent5"].split("SSEEPP")[1]}}%</font></b> of the people talk about <b>{{selected[index]["percent5"].split("SSEEPP")[0]}}</b> positively
+                        <div class="progress"  style="width:70%;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{selected[index]["percent5"].split("SSEEPP")[1]}}" aria-valuemin="0" aria-valuemax="100" style="width:{{selected[index]["percent5"].split("SSEEPP")[1]}}%">
+                        {{selected[index]["percent5"].split("SSEEPP")[1]}}%
+                        </div>
+                        </div>      
+                        </p></h4>
+                        {% endif %}
+                        
+                        {% if selected[index]["summary"] != "NONE" %}
+                        <br>
+                        <h3><p>Restaurant review highlights</p></h3>
+                        <h4>
+                        {% if selected[index]["summary"].split("SSEEPP")[0] != "" %}
+                        <p><font color="#248c3e"><b>Positive highlights:</b></font></p>
+                        <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[0]}}</p>
+                        {% endif %}
+                        {% if selected[index]["summary"].split("SSEEPP")[1] != "" %}
+                        <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[1]}}</p>
+                        {% endif %}
+                        {% if selected[index]["summary"].split("SSEEPP")[2] != "" %}
+                        <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[2]}}</p>
+                        {% endif %}
+                        {% if selected[index]["summary"].split("SSEEPP")[3] != "" %}
+                        <p><font color="#b72a2a"><b>Negative highlights:</b></font></p>
+                        <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[3]}}</p>
+                        {% endif %}
+                        {% if selected[index]["summary"].split("SSEEPP")[4] != "" %}
+                        <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[4]}}</p>
+                        {% endif %}
+                        {% if selected[index]["summary"].split("SSEEPP")[5] != "" %}
+                        <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[5]}}</p>
+                        {% endif %}
+                        </h4>
+                        (There are {{selected[index]["summary"].split("SSEEPP")[6]}} review sentences in total.)
+                        <br>
+                        {% endif %}
+                        
+                        <hr>
+                        <p>Address: {{selected[index]["address"]}}</p>
+                        <p>Phone: {{selected[index]["phone"]}}</p>
+                        <p>Yelp: <a href="{{selected[index]["yelp"]}}" target="_blank">{{selected[index]["yelp"]}}</a></p>
+                        
+                        <div align="right"><a href="#top">Back to top</a></div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+ <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
