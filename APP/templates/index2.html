@@ -19,18 +19,82 @@
         <td width="160px">Title</td>
         <td width="150px">Departure:</td>
         <td width="150px">Destination:</td>
-        <td width="150px">Restaurant</td>
+        <td width="150px">Restaurant:</td>
     </tr>
     <tr>
         
         <td><input type="text" class="form-control mt-2" id="departure" placeholder="Enter a restaurant" name="departure"></td>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">{{location}}</a>
+            <a class="dropdown-item" href="#">{{location}}</a>
+            <a class="dropdown-item" href="#">{{location}}</a>
+          </div>
+        </div>
         
-        <td><input type="text" class="form-control mt-2" id="destination" placeholder="Enter ending location" name="destination"></td>
+        <td><input type="text" class="form-control mt-2" id="destination" placeholder="Enter where you want to go" name="destination"></td>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown button
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">{{location}}</a>
+            <a class="dropdown-item" href="#">{{location}}</a>
+            <a class="dropdown-item" href="#">{{location}}</a>
+          </div>
+        </div>
         
         <td><input type="text" class="form-control mt-2" id="restaurant" placeholder="Looking for what?" name="restaurant"></td>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropdown button
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">{{restaurant}}</a>
+        <a class="dropdown-item" href="#">{{restaurant}}</a>
+        <a class="dropdown-item" href="#">{{restaurant}}</a>
+      </div>
+    </div>
     </tr>
     
-    <td><button class="btn btn-default" type="submit" value = "Search" style="width: 100px; height: 30px;" size = "30" >Map it!</button></td><td></td><td></td>
+    <td><button class="btn btn-default" type="submit" value = "Search" style="width: 100px; height: 30px;" size = "30" >Map it!</button></td><td></td>
+    <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    
+      <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-4">                
+                <form method="POST" action="">
+                <div>
+                <h3 class="twofive">Restaurant name</h3>
+                <input type="text" name="ticker" value="{{restaurant_name}}" placeholder="try:Alessia's Ristorante Italiano " size="30"/>
+                <h3 class="twofive">Location</h3>
+                <input type="text" name="ticker" value="{{address}}" placeholder="try: Mesa, AZ" size="30"/><br><br>
+    	            </div>
+                <br>
+                <input type="submit" value="Search" size="30"/>
+                </form>
+                {% if selected|length > 0 and selected|length == 1 %}
+                Found {{selected|length}} similar restaurant!
+                {% elif selected|length > 1 %}
+                Found {{selected|length}} similar restaurants!
+                {% endif %}
+            </div>
+      
+      
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="Restaurants">
+    <a class="dropdown-item" href="#">Mesa, AZ</a>
+    <a class="dropdown-item" href="#">Pittsburgh, PA</a>
+    <a class="dropdown-item" href="#">Another location here</a>
+  </div>
+</div>
+    <td></td>
     <tr>
 </table>
 </div>

@@ -69,11 +69,18 @@
     <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[2]}}</p>
     {% endif %}
     {% if selected[index]["summary"].split("SSEEPP")[3] != "" %}
+    <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[2]}}</p>
+    {% endif %}
+    {% if selected[index]["summary"].split("SSEEPP")[4] != "" %}
     <p><font color="#b72a2a"><b>Negative highlights:</b></font></p>
     <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[3]}}</p>
     {% endif %}
+    {% if selected[index]["summary"].split("SSEEPP")[5] != "" %}
+    <p>&#8226;&nbsp; {{selected[index]["summary"].split("SSEEPP")[2]}}</p>
+    {% endif %}
     </h4>
-    (There are {{selected[index]["summary"].split("SSEEPP")[4]}} review sentences in total.)
+    
+    (There are {{selected[index]["summary"].split("SSEEPP")[6]}} review sentences in total.)
     <br>
     {% endif %}
 
