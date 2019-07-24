@@ -8,13 +8,14 @@ import pandas as pd
 from scipy.stats import entropy
 import numpy as np
 
-from flask_googlemaps import GoogleMaps,Map
+from flask_googlemaps import GoogleMaps
+from flask_googlemaps import Map, icons 
 
 
 # create the application object
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['GOOGLEMAPS_KEY'] = "api_key"
+app.config['GOOGLEMAPS_KEY'] = "  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjmRF-E30xmEShihkMA8thF9nGiLqUtNY&callback=initMap"type="text/javascript"></script>" 
 GoogleMaps(app)
 
 mesa_lda = pickle.load(open("mesa_lda.pkl","rb"))
@@ -99,5 +100,6 @@ def get_information():
     else:
         return render_template('index.html', form=form,map = mymap)
 
+# Run the app from here
 if __name__ == '__main__':
     app.run(debug = True)
