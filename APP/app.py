@@ -14,7 +14,7 @@ from functions import jensen_shannon,get_most_similar_documents,get_top_ten
 # create the application object
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['GOOGLEMAPS_KEY'] = "Key"
+app.config['GOOGLEMAPS_KEY'] = "key"
 GoogleMaps(app)
         
 
