@@ -19,12 +19,9 @@ import requests
 import json
 import cv2 as cv
 
+# for using pickled files and creating graphs
 import pickle
 import matplotlib.pyplot as plt
-
-
-
-
 
 
 # create the application object
@@ -42,14 +39,13 @@ api_key=""
 def home():
     return render_template('home.html')
 
-@app.route('/about', methods=['GET', 'POST'])
+@app.route('/about')
 def about():
     return render_template('about.html')
 
 @app.route('/vis/test/<id>', methods=['GET', 'POST'])
 def vis(id):
     return render_template('vis.html',id = id)
-
 
 @app.route('/<destination>/<restaurant>')
 def restaurant_reviews(restaurant,destination):
@@ -75,7 +71,11 @@ def restaurant_reviews(restaurant,destination):
     phone = req.json()["display_phone"]
     image = requests.get(req.json()["image_url"])
     yelp_website = req.json()["url"]
+        
+    with open("static/images_" + id +".jpg", 'wb') as f:
+        f.write(image.content)
     
+    #creating visualization of topic distribution for query
     lda = pickle.load(open("pickled/" + destination + "_lda.pkl","rb"))
     dictionary = pickle.load(open("pickled/" + destination + "_dictionary.pkl","rb"))
     new_bow = dictionary.doc2bow(eval(data.iloc[0,-3]))
@@ -83,77 +83,61 @@ def restaurant_reviews(restaurant,destination):
     labels = ['topic1','topic2','topic3','topic4','topic5','topic6']
     angle=np.linspace(0, 2*np.pi, len(labels), endpoint=False)
 
-    vals = new_doc_distribution
 
-    stats=np.concatenate((vals,[vals[0]]))
+    stats=np.concatenate((new_doc_distribution,[new_doc_distribution[0]]))
     angles=np.concatenate((angle,[angle[0]]))
     plt.polar(angles,stats)
-    # for i in range(vals):
-    #     plt.text(0.05,0.95-i,vals[i])
     plt.savefig('static/'+ id+'.png')
     plt.show()
 
-    
-    
-
-    with open("static/images_" + id +".jpg", 'wb') as f:
-        f.write(image.content)
-
     return render_template('restaurant.html',restaurant = restaurant, destination = destination,negative = negative,positive = positive,stars = stars, id = id, phone = phone,graph = 'graph_'+id+".png" ,image ='images_'+id+".jpg",yelp_website = yelp_website)
-
 
 @app.route("/map", methods=['POST', 'GET'])
 def get_information():
-    
+    #Takes in information from form, 
+    #Outputs Map, along with hyperlinks of top 10 similar restaurants
     form = ReusableForm(request.form)
     print (form.errors)
 
 
     if request.method == 'POST':
 
-        # try:
-        
-    
+        try:
+            departure=request.form['departure']
+            destination=request.form['destination']
+            restaurant=request.form['restaurant']
+            query = pd.read_csv("csv/" + departure +'.csv')
+            query = query[query["name"] == restaurant]
 
-        departure=request.form['departure']
-        destination=request.form['destination']
-        restaurant=request.form['restaurant']
-        
-        query = pd.read_csv("csv/" + departure +'.csv')
-        query = query[query["name"] == restaurant]
-
-        # if more than one business has the same name
-        if query.shape[0]>1:
-            address = query.address.values
-            #let user select which address is being referred to
-            return render_template('address.html', restaurant = restaurant, address = address, departure = departure, destination =destination )
-        else:
-            most_similar_df = get_top_ten(query,departure,destination)
-
-            names =  most_similar_df.name.tolist()
-            latitudes = most_similar_df.latitude.tolist()
-            longitudes = most_similar_df.longitude.tolist()
-            locations = list(zip(latitudes,longitudes,names))
+            # if more than one business has the same name
+            if query.shape[0]>1:
+                address = query.address.values
+                #let user select which address is being referred to
+                return render_template('address.html', restaurant = restaurant, address = address, departure = departure, destination =destination )
             
-            mymap = Map(
-                identifier="view-side",
-                lat=33.4227198,
-                lng= -111.79821229999999,
-                markers = [{"lat":loc[0], "lng":loc[1], "infobox": loc[2]} for loc in locations],
-                fit_markers_to_bounds = True,
-                style="width:100%; height:100%;"
-            )
-        
-            return render_template('map.html', names = names ,map=mymap,destination = destination,restaurant = restaurant)
-        # #except:
-        #     return render_template('error.html')
-
+            else:
+                most_similar_df = get_top_ten(query,departure,destination)
+                names =  most_similar_df.name.tolist()
+                latitudes = most_similar_df.latitude.tolist()
+                longitudes = most_similar_df.longitude.tolist()
+                locations = list(zip(latitudes,longitudes,names))
+                
+                mymap = Map(
+                    identifier="view-side",
+                    lat=33.4227198,
+                    lng= -111.79821229999999,
+                    markers = [{"lat":loc[0], "lng":loc[1], "infobox": loc[2]} for loc in locations],
+                    fit_markers_to_bounds = True,
+                    style="width:100%; height:100%;"
+                )
+            
+                return render_template('map.html', names = names ,map=mymap,destination = destination,restaurant = restaurant)
+        except:
+            return render_template('error.html')
 
 @app.route('/map2', methods=['POST', 'GET'])
-
 def get_information2():
-
-
+    #If more than 2 locations with same name
     if request.method == 'POST':
         address=request.form['address']
         departure = request.form['departure']
