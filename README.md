@@ -16,7 +16,7 @@ Files:
   - checkin.json
   - tips.json
 
-Currently, the Flask site only inputs data from three cities: Mesa,AZ, Pittsburgh, PA, and . 
+Currently, the Flask site only inputs data from three cities: Mesa,AZ, Pittsburgh, PA, and Charlotte, NC. 
 
 ## 2. Topic Models
 Instead of looking at the star ratings on Yelp, EatLike pulls topics from the Yelp reviews and offers sentiment analysis on the reviews as well. Five randomly selected positive and negative sentences across all of the reviews of a restaurant are selected as highlights. 
