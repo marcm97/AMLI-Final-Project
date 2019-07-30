@@ -8,6 +8,7 @@ EatLike is a recommendation engine based on topic modeling, the Natural Language
 
 ## 1. Dataset
 www.yelp.com/dataset
+
 9 GB unzipped
 Files: 
   - reviews.json
@@ -30,4 +31,4 @@ Topic models are used in statistical data modeling to predict the topic(s) of a 
 ## 4. Installation and Running Locally 
 Please see the requirements.txt file 
 
-Create a new environment until you add files, then freeze it and get the requirements txt.???
+(Create a new environment until you add files, then freeze it and get the requirements txt.???) 
