@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{%block content%}
+<form name="myForm" action="{{url_for('get_information2')}}" method="POST" onsubmit="">
+        <p>
+        <input type="text" name="destination" value = "{{destination}}"> {{destination}} <br>
+        <input type="text" name="departure" value = "{{departure}}"> {{departure}}<br>
+        {%for i in address %} 
+            
+                <input type="radio" name="address" value = "{{i}}"> {{i}} <br>
+            
+        {%endfor%} 
+        </p>
+        <p><input type=submit value=Next></p>
+</form>
+{%endblock%}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .vega-actions a {
+        margin-right: 12px;
+        color: #757575;
+        font-weight: normal;
+        font-size: 13px;
+    }
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@3.3.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@4"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+      var spec = {"config": {"view": {"width": 400, "height": 300}, "mark": {"tooltip": null}}, "data": {"name": "data-2977d97026557a7ed94655d094fc5bd9"}, "mark": "bar", "encoding": {"x": {"type": "nominal", "field": "labels"}, "y": {"type": "quantitative", "field": "vals"}}, "$schema": "https://vega.github.io/schema/vega-lite/v3.3.0.json", "datasets": {"data-2977d97026557a7ed94655d094fc5bd9": [{"labels": "topic1", "vals": 0.07525128126144409}, {"labels": "topic2", "vals": 0.04146602004766464}, {"labels": "topic3", "vals": 0.365862637758255}, {"labels": "topic4", "vals": 0.19338937103748322}, {"labels": "topic5", "vals": 0.19429628551006317}, {"labels": "topic6", "vals": 0.1297343522310257}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+
+  </script>
+</body>
+</html>
