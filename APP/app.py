@@ -30,11 +30,11 @@ import matplotlib.pyplot as plt
 # create the application object
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['GOOGLEMAPS_KEY'] = ""
+app.config['GOOGLEMAPS_KEY'] = "AIzaSyDtYp6V7WFFzm5JpAGBYwIXnayqN4E-Z1Q"
 GoogleMaps(app)
 
 #yelp api key
-api_key=""
+api_key="CjSlZf6-T83KQTmcssS499VYq6bzAICqtwPfk0zz7tFOtBfV1uNROedPiXJaCduFfBAHAfKKijOWtwUnBnI5_am4eBdE3tPqDVJ0NiTAOBAnFrs2cp967NQWfpBrW3Yx"
         
 
 @app.route('/', methods=['GET', 'POST'])
@@ -111,42 +111,39 @@ def get_information():
 
     if request.method == 'POST':
 
-        # try:
-        
-    
-
-        departure=request.form['departure']
-        destination=request.form['destination']
-        restaurant=request.form['restaurant']
-        
-        query = pd.read_csv("csv/" + departure +'.csv')
-        query = query[query["name"] == restaurant]
-
-        # if more than one business has the same name
-        if query.shape[0]>1:
-            address = query.address.values
-            #let user select which address is being referred to
-            return render_template('address.html', restaurant = restaurant, address = address, departure = departure, destination =destination )
-        else:
-            most_similar_df = get_top_ten(query,departure,destination)
-
-            names =  most_similar_df.name.tolist()
-            latitudes = most_similar_df.latitude.tolist()
-            longitudes = most_similar_df.longitude.tolist()
-            locations = list(zip(latitudes,longitudes,names))
+        try:
+            departure=request.form['departure']
+            destination=request.form['destination']
+            restaurant=request.form['restaurant']
             
-            mymap = Map(
-                identifier="view-side",
-                lat=33.4227198,
-                lng= -111.79821229999999,
-                markers = [{"lat":loc[0], "lng":loc[1], "infobox": loc[2]} for loc in locations],
-                fit_markers_to_bounds = True,
-                style="width:100%; height:100%;"
-            )
-        
-            return render_template('map.html', names = names ,map=mymap,destination = destination,restaurant = restaurant)
-        # #except:
-        #     return render_template('error.html')
+            query = pd.read_csv("csv/" + departure +'.csv')
+            query = query[query["name"] == restaurant]
+
+            # if more than one business has the same name
+            if query.shape[0]>1:
+                address = query.address.values
+                #let user select which address is being referred to
+                return render_template('address.html', restaurant = restaurant, address = address, departure = departure, destination =destination )
+            else:
+                most_similar_df = get_top_ten(query,departure,destination)
+
+                names =  most_similar_df.name.tolist()
+                latitudes = most_similar_df.latitude.tolist()
+                longitudes = most_similar_df.longitude.tolist()
+                locations = list(zip(latitudes,longitudes,names))
+                
+                mymap = Map(
+                    identifier="view-side",
+                    lat=33.4227198,
+                    lng= -111.79821229999999,
+                    markers = [{"lat":loc[0], "lng":loc[1], "infobox": loc[2]} for loc in locations],
+                    fit_markers_to_bounds = True,
+                    style="width:100%; height:100%;"
+                )
+            
+                return render_template('map.html', names = names ,map=mymap,destination = destination,restaurant = restaurant)
+        except:
+            return render_template('error.html')
 
 
 @app.route('/map2', methods=['POST', 'GET'])
