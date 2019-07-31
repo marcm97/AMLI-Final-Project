@@ -6,8 +6,6 @@ from scipy.stats import entropy
 
 from flask import render_template
 import matplotlib.pyplot as plt
-import seaborn as sns
-import altair as alt
 
 
 

@@ -17,11 +17,12 @@ from functions import jensen_shannon,get_most_similar_documents,get_top_ten
 #libraries for rendering images
 import requests
 import json
-import cv2 as cv
 
 # for using pickled files and creating graphs
 import pickle
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 
 
 # create the application object
@@ -43,18 +44,26 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route('/vis/test/<id>', methods=['GET', 'POST'])
-def vis(id):
-    return render_template('vis.html',id = id)
+@app.route('/vis/<id2>/<id>', methods=['GET', 'POST'])
+def vis(id,id2):
+    return render_template('vis.html',id = id,id2 = id2)
 
-@app.route('/<destination>/<restaurant>')
-def restaurant_reviews(restaurant,destination):
+@app.route('/<dept_restaurant>/<departure>/<destination>/<dest_restaurant>')
+def restaurant_reviews(dept_restaurant,departure,destination,dest_restaurant):
     #input: restaurant, destination
     #output: passes info to restaurant.html
     #info obtained from yelp api + cleaned csv files
+
+    #data -> restaurant in destination city
+    #data_original -> restaurant to be replicated
+
     data = pd.read_csv("csv/"+ destination + ".csv")
-    data = data[data.name ==restaurant].reset_index(drop=True)
+    data = data[data.name ==dest_restaurant].reset_index(drop=True)
     id = data.loc[0,"business_id"]
+
+    data_original = pd.read_csv("csv/"+ departure + ".csv")
+    data_original = data_original[data_original.name ==dept_restaurant].reset_index(drop=True)
+    id2 = data_original.loc[0,"business_id"]
     
     #getting top 5 positive/negative sentimemts
     positive = eval(data.loc[0,"postive_reviews"])[:5]
@@ -79,18 +88,33 @@ def restaurant_reviews(restaurant,destination):
     lda = pickle.load(open("pickled/" + destination + "_lda.pkl","rb"))
     dictionary = pickle.load(open("pickled/" + destination + "_dictionary.pkl","rb"))
     new_bow = dictionary.doc2bow(eval(data.iloc[0,-3]))
+    new_bow_dept = dictionary.doc2bow(eval(data_original.iloc[0,-3]))
+
+
     new_doc_distribution = np.array([tup[1] for tup in lda.get_document_topics(bow=new_bow)])
-    labels = ['topic1','topic2','topic3','topic4','topic5','topic6']
+    new_doc_distribution_dept = np.array([tup[1] for tup in lda.get_document_topics(bow=new_bow_dept)])
+    labels = [' Topic1',' Topic2',' Topic3',' Topic4',' Topic5',' Topic6']
     angle=np.linspace(0, 2*np.pi, len(labels), endpoint=False)
 
 
     stats=np.concatenate((new_doc_distribution,[new_doc_distribution[0]]))
-    angles=np.concatenate((angle,[angle[0]]))
-    plt.polar(angles,stats)
-    plt.savefig('static/'+ id+'.png')
-    plt.show()
+    stats2=np.concatenate((new_doc_distribution_dept,[new_doc_distribution_dept[0]]))
 
-    return render_template('restaurant.html',restaurant = restaurant, destination = destination,negative = negative,positive = positive,stars = stars, id = id, phone = phone,graph = 'graph_'+id+".png" ,image ='images_'+id+".jpg",yelp_website = yelp_website)
+    angles=np.concatenate((angle,[angle[0]]))
+    plt.polar(angles,stats,label = dest_restaurant)
+    plt.fill_between(angles, stats, 'b', alpha=0.4)
+
+
+
+    plt.polar(angles,stats2,label = dept_restaurant)
+    plt.fill_between(angles, stats2, 'b', alpha=0.4)
+    plt.xticks(angles[:-1], labels)
+    plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
+    plt.savefig('static/'+id2+"_" +id+'.png')
+    plt.show()
+    plt.close()
+
+    return render_template('restaurant.html',restaurant = dest_restaurant, destination = destination,negative = negative,positive = positive,stars = stars, id = id, id2 = id2,phone = phone,graph = 'graph_'+id+".png" ,image ='images_'+id+".jpg",yelp_website = yelp_website)
 
 @app.route("/map", methods=['POST', 'GET'])
 def get_information():
@@ -131,7 +155,7 @@ def get_information():
                     style="width:100%; height:100%;"
                 )
             
-                return render_template('map.html', names = names ,map=mymap,destination = destination,restaurant = restaurant)
+                return render_template('map.html', names = names ,map=mymap,destination = destination,restaurant = restaurant,departure = departure)
         except:
             return render_template('error.html')
 
