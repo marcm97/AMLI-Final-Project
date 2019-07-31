@@ -39,37 +39,11 @@ def get_top_ten(query,departure,destination):
     dictionary = pickle.load(open("pickled/" + destination + "_dictionary.pkl","rb"))
     doc_topic_dist = pickle.load(open("pickled/" + destination + "_dist.pkl","rb"))
 
-    
-
     destination = pd.read_csv("csv/" +destination+ ".csv")
-
-    graph_id = query.iloc[0,1]
     #get the ids of the most similar businesses
     new_bow = dictionary.doc2bow(eval(query.iloc[0,-3]))
     new_doc_distribution = np.array([tup[1] for tup in lda.get_document_topics(bow=new_bow)])
     most_sim_ids = get_most_similar_documents(new_doc_distribution,doc_topic_dist)
-
-
-    # labels = ['topic1','topic2','topic3','topic4','topic5','topic6']
-    # angle=np.linspace(0, 2*np.pi, len(labels), endpoint=False)
-
-    # vals = new_doc_distribution
-
-    # stats=np.concatenate((vals,[vals[0]]))
-    # angles=np.concatenate((angle,[angle[0]]))
-
-    #plt.polar(angles,stats)
-    # graph = plt.figure()
-    # ax = graph.add_subplot(111, polar=True)
-    # ax.plot(angles, stats, 'o-', linewidth=2)
-    # ax.fill(angles, stats, alpha=0.25)
-    # ax.set_thetagrids(angles * 180/np.pi, labels)
-    # ax.grid(True)
- 
-    # plt.savefig('static/'+ graph_id+'.png')
-    # plt.show()
-
-
 
     # print the results
     most_similar_df = destination.iloc[most_sim_ids,:]

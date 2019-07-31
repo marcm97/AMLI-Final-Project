@@ -28,11 +28,11 @@ matplotlib.use('Agg')
 # create the application object
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['GOOGLEMAPS_KEY'] = ""
+app.config['GOOGLEMAPS_KEY'] = "AIzaSyDtYp6V7WFFzm5JpAGBYwIXnayqN4E-Z1Q"
 GoogleMaps(app)
 
 #yelp api key
-api_key=""
+api_key="CjSlZf6-T83KQTmcssS499VYq6bzAICqtwPfk0zz7tFOtBfV1uNROedPiXJaCduFfBAHAfKKijOWtwUnBnI5_am4eBdE3tPqDVJ0NiTAOBAnFrs2cp967NQWfpBrW3Yx"
         
 
 @app.route('/', methods=['GET', 'POST'])
