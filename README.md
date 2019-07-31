@@ -1,6 +1,7 @@
 # AMLI-Final-Project - Analyzing Yelp Data 
 
 Team: Xijie Guo, Marissa Kelley, Marc Mascarenhas, and Jesse Stewart
+
 July 2019
 
 ## Overview:
