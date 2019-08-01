@@ -26,6 +26,12 @@
                     Rating: {{stars}}
                 </p>
                 <p class="card-text">
+                        Positive Sentiment:
+                        <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{sentiment}}%" aria-valuenow={{sentiment}} aria-valuemin="0" aria-valuemax="100">{{sentiment}}%</div>
+                              </div>
+                    </p>
+                <p class="card-text">
                         {{phone}}
                 </p>
                 <a href={{yelp_website}} class="btn btn-primary">Yelp Page</a>
@@ -38,7 +44,11 @@
         <div class = "col">
             <ul>
                 {% for i in positive %}
-                    <li>{{ i }} </li>
+                    <div  class = "container">
+                    <span style="color:green">&#10003;</span> 
+                    {{ i }}
+                </div>
+                <p> </p>
                 {% endfor %}
             </ul>
         </div>
@@ -46,8 +56,11 @@
         <div class = "col">
             <ul>
                 {% for i in negative %}
-                    <li>{{ i }} </li>
-                    <p> </p>
+                    <div  class = "container">
+                    <span style="color:red">&#215;</span> 
+                    {{ i }}
+                </div>
+                <p> </p>
                 {% endfor %}
             </ul>
         </div>

@@ -7,12 +7,13 @@ from forms import ReusableForm
 #csv/df manipulations
 import pandas as pd
 import numpy as np
+from textwrap import wrap
 
 #maps
 from flask_googlemaps import GoogleMaps,Map
 
 #custom functions from functions.py
-from functions import jensen_shannon,get_most_similar_documents,get_top_ten
+from functions import get_most_similar_documents,get_top_ten,get_most_similar_businesses,get_topic_dist
 
 #libraries for rendering images
 import requests
@@ -72,6 +73,9 @@ def restaurant_reviews(dept_restaurant,departure,destination,dest_restaurant):
     #stars
     stars = data.loc[0,"stars"]
 
+    #% positive sentiment
+    sentiment = round(data.loc[0,"pos_ratio"]*100,2)
+
     #yelp api call
     headers = {'Authorization': 'Bearer %s' % api_key}
     url='https://api.yelp.com/v3/businesses/' + id
@@ -85,15 +89,15 @@ def restaurant_reviews(dept_restaurant,departure,destination,dest_restaurant):
         f.write(image.content)
     
     #creating visualization of topic distribution for query
-    lda = pickle.load(open("pickled/" + destination + "_lda.pkl","rb"))
-    dictionary = pickle.load(open("pickled/" + destination + "_dictionary.pkl","rb"))
-    new_bow = dictionary.doc2bow(eval(data.iloc[0,-3]))
-    new_bow_dept = dictionary.doc2bow(eval(data_original.iloc[0,-3]))
+    lda = pickle.load(open("pickled3/" + destination + "_lda.pkl","rb"))
+    dictionary = pickle.load(open("pickled3/" + destination + "_dictionary.pkl","rb"))
+    new_bow = dictionary.doc2bow(eval(data.iloc[0]["tokenized"]))
+    new_bow_dept = dictionary.doc2bow(eval(data_original.iloc[0]["tokenized"]))
 
 
     new_doc_distribution = np.array([tup[1] for tup in lda.get_document_topics(bow=new_bow)])
     new_doc_distribution_dept = np.array([tup[1] for tup in lda.get_document_topics(bow=new_bow_dept)])
-    labels = [' Topic1',' Topic2',' Topic3',' Topic4',' Topic5',' Topic6']
+    labels = [' Topic1 ',' Topic2 ',' Topic3 ',' Topic4 ',' Topic5 ',' Topic6 ']
     angle=np.linspace(0, 2*np.pi, len(labels), endpoint=False)
 
 
@@ -101,20 +105,22 @@ def restaurant_reviews(dept_restaurant,departure,destination,dest_restaurant):
     stats2=np.concatenate((new_doc_distribution_dept,[new_doc_distribution_dept[0]]))
 
     angles=np.concatenate((angle,[angle[0]]))
-    plt.polar(angles,stats,label = dest_restaurant)
+    plt.polar(angles,stats,label = "\n".join(wrap(dept_restaurant,15)))
     plt.fill_between(angles, stats, 'b', alpha=0.4)
 
 
 
-    plt.polar(angles,stats2,label = dept_restaurant)
+    plt.polar(angles,stats2,label = "\n".join(wrap(dest_restaurant,15)))
     plt.fill_between(angles, stats2, 'b', alpha=0.4)
     plt.xticks(angles[:-1], labels)
-    plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
+    plt.yticks([0.25,0.5,0.75,1], ["0.25","0.5","0.75","1"], color="grey", size=7)
+
+    plt.legend(loc='upper right', bbox_to_anchor=(0, 0.4))
     plt.savefig('static/'+id2+"_" +id+'.png')
     plt.show()
     plt.close()
 
-    return render_template('restaurant.html',restaurant = dest_restaurant, destination = destination,negative = negative,positive = positive,stars = stars, id = id, id2 = id2,phone = phone,graph = 'graph_'+id+".png" ,image ='images_'+id+".jpg",yelp_website = yelp_website)
+    return render_template('restaurant.html',sentiment = sentiment,restaurant = dest_restaurant, destination = destination,negative = negative,positive = positive,stars = stars, id = id, id2 = id2,phone = phone,graph = 'graph_'+id+".png" ,image ='images_'+id+".jpg",yelp_website = yelp_website)
 
 @app.route("/map", methods=['POST', 'GET'])
 def get_information():
