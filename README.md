@@ -41,6 +41,7 @@ Please see the requirements.txt file
 (Create a new environment until you add files, then freeze it and get the requirements txt.???) 
 
 ## 5. Replicating Code
+outputs of each of the notebooks can be found at https://www.dropbox.com/sh/qps70jnb535bdez/AABYLm5zaIhtLyWd6xKjwZkva?dl=0
 - Step 1: Go to www.yelp.com/dataset and download zipped json files
 - Step 2: Upload files to Google Cloud Bucket
 - Step 3: Run "yelp_query.ipynb":This creates 3 datasets (of 3 cities) and filters out restaurants in those cities with>100 reviews. 
