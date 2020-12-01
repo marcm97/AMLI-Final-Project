@@ -13,6 +13,8 @@ July 2019
 
 EatLike is a recommendation engine based on topic modeling, the Natural Language Toolkit (NLTK), and sentiment analysis. EatLike provides users with a selection of restaurants ordered by their topic similarity to a given query restaurant. Furthermore, EatLike allows users to see the top positive and negative statements about a given restaurant.
 
+https://www.dropbox.com/s/fnokacq9uiqk1x7/EatLikeDemo.mp4?dl=0
+
 ## 1. Dataset
 www.yelp.com/dataset
 
